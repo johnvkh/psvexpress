@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:psvexpress/constants.dart';
+import '../../../utility/Constants.dart';
 import 'package:psvexpress/controllers/MenuController.dart';
 import 'package:psvexpress/screens/Authen/Login.dart';
 import 'package:psvexpress/screens/main/MainScreen.dart';
