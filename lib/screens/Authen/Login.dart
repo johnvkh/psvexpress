@@ -126,13 +126,12 @@ class _LoginState extends State<Login> {
                           print("userName=${userName},  password=${password}");
                           if (userName.isEmpty || userName == "") {
                             DialogFail(
-                                context, "Notification!", "Login have error");
+                                context, "Notification!", "User name incorrect pleace try again!!!");
                           } else if (password.isEmpty || password == "") {
                             DialogFail(
-                                context, "Notification!", "Login have error");
+                                context, "Notification!", "Password incorrect pleace try again!!!");
                           } else {
-                            DialogSucessfull(
-                                context, "Notification!", "Login have sucessfull");
+
                           }
                         },
                         child: Container(

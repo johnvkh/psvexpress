@@ -22,8 +22,6 @@ Future<Null> DialogSucessfull(
   );
 }
 
-
-
 Future<Null> DialogFail(
     BuildContext context, String title, String message) async {
   AwesomeDialog(
@@ -42,7 +40,7 @@ Future<Null> DialogFail(
           title: title,
           desc: message,
           btnOkOnPress: () {
-            Navigator.pop(context);
+            //Navigator.pop(context);
           },
           btnOkColor: Colors.red,
           btnOkText: "Continue")
