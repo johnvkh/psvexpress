@@ -1,6 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:psvexpress/utility/DialogPopup.dart';
+import 'dart:convert';
+
+import '../../utility/Constants.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -8,8 +13,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  String userName="";
-  String password="";
+  String userName = "";
+  String password = "";
+
 
   @override
   Widget build(BuildContext context) {
@@ -125,13 +131,13 @@ class _LoginState extends State<Login> {
                         onTap: () {
                           print("userName=${userName},  password=${password}");
                           if (userName.isEmpty || userName == "") {
-                            DialogFail(
-                                context, "Notification!", "User name incorrect pleace try again!!!");
+                            DialogFail(context, "Notification!",
+                                "User name incorrect pleace try again!!!");
                           } else if (password.isEmpty || password == "") {
-                            DialogFail(
-                                context, "Notification!", "Password incorrect pleace try again!!!");
+                            DialogFail(context, "Notification!",
+                                "Password incorrect pleace try again!!!");
                           } else {
-
+                            evenLogin(userName, password);
                           }
                         },
                         child: Container(
@@ -171,5 +177,28 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future<Null> evenLogin(String userName, String password) async{
+    DateTime now = DateTime.now();
+    String transTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(now);
+    String signatureStr = "${userName}${transTime}";
+    print("signatureStr=${signatureStr}");
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String signature = stringToBase64.encode(signatureStr);
+    print("signature=${signature}");
+    String url="${API_URL}/api/login/index.php";
+    print("url=${url}");
+    var dio = Dio();
+    var response = await dio.post(
+        url,
+        data: {
+          "user_name": userName,
+          "password":password,
+          "trans_time": transTime,
+          "signature": signature
+        }
+    );
+    print("response=${response.toString()}");
   }
 }
