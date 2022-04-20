@@ -193,10 +193,10 @@ class _LoginState extends State<Login> {
     var response = await dio.post(
         url,
         data: {
-          "user_name": userName,
-          "password":password,
-          "trans_time": transTime,
-          "signature": signature
+          "user_name": "${userName}",
+          "password":"${password}",
+          "trans_time": "${transTime}",
+          "signature": "${signature}"
         }
     );
     print("response=${response.toString()}");
