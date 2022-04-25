@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:psvexpress/utility/DialogPopup.dart';
-import 'dart:convert';
+import 'package:crypto/crypto.dart';
 
 import '../../utility/Constants.dart';
 
@@ -184,8 +186,10 @@ class _LoginState extends State<Login> {
     String transTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(now);
     String signatureStr = "${userName}${transTime}";
     print("signatureStr=${signatureStr}");
+    String md5Encode = md5.convert(utf8.encode(signatureStr)).toString();
+    print("md5Encode=${md5Encode}");
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String signature = stringToBase64.encode(signatureStr);
+    String signature = stringToBase64.encode(md5Encode);
     print("signature=${signature}");
     String url="${API_URL}/api/login/index.php";
     print("url=${url}");
