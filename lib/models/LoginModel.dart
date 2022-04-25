@@ -1,13 +1,13 @@
-class loginModel {
+class LoginModel {
   String? responseCode;
   String? responseDescription;
   bool? status;
   List<UserLogin>? listUser;
 
-  loginModel(
+  LoginModel(
       {this.responseCode, this.responseDescription, this.status, this.listUser});
 
-  loginModel.fromJson(Map<String, dynamic> json) {
+  LoginModel.fromJson(Map<String, dynamic> json) {
     responseCode = json['response_code'];
     responseDescription = json['response_description'];
     status = json['status'];

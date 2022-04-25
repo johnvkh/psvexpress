@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:psvexpress/models/LoginModel.dart';
 import 'package:psvexpress/utility/DialogPopup.dart';
 import 'package:crypto/crypto.dart';
 
@@ -194,15 +195,22 @@ class _LoginState extends State<Login> {
     String url="${API_URL}/api/login/index.php";
     print("url=${url}");
     var dio = Dio();
-    var response = await dio.post(
-        url,
-        data: {
-          "user_name": "${userName}",
-          "password":"${password}",
-          "trans_time": "${transTime}",
-          "signature": "${signature}"
-        }
-    );
-    print("response=${response.toString()}");
+    await Dio().post(url,data: {
+      "user_name": "${userName}",
+      "password":"${password}",
+      "trans_time": "${transTime}",
+      "signature": "${signature}"
+    }).then((value){
+      print("response=${value.toString()}");
+      for(var item in jsonDecode(value.toString())){
+        LoginModel loginModel = LoginModel.fromJson(item);
+        print("responseCode=${loginModel.responseCode}");
+      }
+
+    });
+
+
+
+
   }
 }
