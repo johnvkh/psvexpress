@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:psvexpress/models/LoginModel.dart';
+import 'package:psvexpress/models/UserModel.dart';
 import 'package:psvexpress/utility/DialogPopup.dart';
 import 'package:crypto/crypto.dart';
 
@@ -194,20 +195,37 @@ class _LoginState extends State<Login> {
     print("signature=${signature}");
     String url="${API_URL}/api/login/index.php";
     print("url=${url}");
-    var dio = Dio();
-    await Dio().post(url,data: {
+    Response response = await Dio().post(url, data: {
       "user_name": "${userName}",
       "password":"${password}",
       "trans_time": "${transTime}",
       "signature": "${signature}"
-    }).then((value){
-      print("response=${value.toString()}");
-      for(var item in jsonDecode(value.toString())){
-        LoginModel loginModel = LoginModel.fromJson(item);
-        print("responseCode=${loginModel.responseCode}");
-      }
-
     });
+    // print("response.statusCode:${jsonDecode(response.data)}");
+    LoginModel ls =LoginModel.fromJson(response.data);
+    UserLogin userLogin =new UserLogin();
+
+    // for(int i=0;i<ls.listUser.length;i++){
+    //   UserModel userModel = ls.listUser;
+    // }
+    print("v:${ls.listUser..branchName}");
+    print("v:${ls.responseCode}");
+      //final Map<String, dynamic> responses = json.decode(value.data);
+      //print("response=${value.toString()}");
+      //String decodedJson = json.decode(value.data);
+      //print("decodedJson=${responses['response_code']}");
+      //var list = json.decode(decodedJson['list']);
+      //print("first_name=${decodedJson['list'][0]['first_name'].toString()}");
+      // for(var item in jsonDecode(value.toString())){
+      //   UserModel loginModel = UserModel.fromMap(item['list']);
+      //   print("responseCode=${loginModel.branchName}");
+      // }
+
+      // var decodedJson = json.decode(value.toString());
+      // var jsonValue = json.decode(decodedJson['list']);
+      // print(jsonValue['branch_name']);
+
+    //});
 
 
 
