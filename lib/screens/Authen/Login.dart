@@ -8,8 +8,10 @@ import 'package:psvexpress/models/LoginModel.dart';
 import 'package:psvexpress/models/UserModel.dart';
 import 'package:psvexpress/utility/DialogPopup.dart';
 import 'package:crypto/crypto.dart';
+import 'package:http/http.dart' as http;
 
 import '../../utility/Constants.dart';
+import '../../utility/ResponceCode.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -19,8 +21,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String userName = "";
   String password = "";
-
-
+  late UserLogin userModel;
+  List<UserLogin> lsUserModel = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,9 +185,10 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Future<Null> evenLogin(String userName, String password) async{
+  Future<Null> evenLogin(String userName, String password) async {
     DateTime now = DateTime.now();
     String transTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(now);
+    print("transTime=${transTime}");
     String signatureStr = "${userName}${transTime}";
     print("signatureStr=${signatureStr}");
     String md5Encode = md5.convert(utf8.encode(signatureStr)).toString();
@@ -193,42 +196,29 @@ class _LoginState extends State<Login> {
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String signature = stringToBase64.encode(md5Encode);
     print("signature=${signature}");
-    String url="${API_URL}/api/login/index.php";
+    // String url="${API_URL}/api/login/index.php";
+
+    var url = Uri.parse('${API_URL}/api/login/index.php');
     print("url=${url}");
-    Response response = await Dio().post(url, data: {
-      "user_name": "${userName}",
-      "password":"${password}",
-      "trans_time": "${transTime}",
-      "signature": "${signature}"
-    });
-    // print("response.statusCode:${jsonDecode(response.data)}");
-    LoginModel ls =LoginModel.fromJson(response.data);
-    UserLogin userLogin =new UserLogin();
+    var response = await http.post(
+      url,
+      body: json.encode({
+        "user_name": "${userName}",
+        "password": "${password}",
+        "trans_time": "${transTime}",
+        "signature": "${signature}"
+      }),
+    );
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${jsonDecode(response.body)}');
+    var respData = json.decode(response.body);
+    print("extractedData['list']=${respData['list']}");
+    for(var map in respData['list']) {
+      userModel = UserLogin.fromJson(map);
+    }
+    print("branchName=${userModel.branchName}");
+    if(respData['response_code']==SUCESSFUL){
 
-    // for(int i=0;i<ls.listUser.length;i++){
-    //   UserModel userModel = ls.listUser;
-    // }
-    print("v:${ls.listUser..branchName}");
-    print("v:${ls.responseCode}");
-      //final Map<String, dynamic> responses = json.decode(value.data);
-      //print("response=${value.toString()}");
-      //String decodedJson = json.decode(value.data);
-      //print("decodedJson=${responses['response_code']}");
-      //var list = json.decode(decodedJson['list']);
-      //print("first_name=${decodedJson['list'][0]['first_name'].toString()}");
-      // for(var item in jsonDecode(value.toString())){
-      //   UserModel loginModel = UserModel.fromMap(item['list']);
-      //   print("responseCode=${loginModel.branchName}");
-      // }
-
-      // var decodedJson = json.decode(value.toString());
-      // var jsonValue = json.decode(decodedJson['list']);
-      // print(jsonValue['branch_name']);
-
-    //});
-
-
-
-
+    }
   }
 }
