@@ -11,18 +11,22 @@ import 'package:psvexpress/utility/Constants.dart';
 import 'package:psvexpress/screens/dashboard/components/my_fields.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class TEST extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _TESTState createState() => _TESTState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _TESTState extends State<TEST> {
+class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: SideMenu(),
+      drawer: Container(
+        color: Colors.blue,
+        child: SideMenu(),
+      ),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +44,8 @@ class _TESTState extends State<TEST> {
                         if (!Responsive.isDesktop(context))
                           IconButton(
                             icon: Icon(Icons.menu),
-                            onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+                            onPressed: () =>
+                                _scaffoldKey.currentState?.openDrawer(),
                           ),
                         if (!Responsive.isMobile(context))
                           Text(

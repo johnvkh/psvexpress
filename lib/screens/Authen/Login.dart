@@ -9,7 +9,7 @@ import 'package:psvexpress/models/LoginModel.dart';
 import 'package:psvexpress/models/UserModel.dart';
 import 'package:psvexpress/screens/dashboard/dashboard_screen.dart';
 import 'package:psvexpress/screens/main/MainScreen.dart';
-import 'package:psvexpress/screens/test.dart';
+import 'package:psvexpress/screens/HomePage.dart';
 import 'package:psvexpress/utility/DialogPopup.dart';
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
@@ -238,7 +238,7 @@ class _LoginState extends State<Login> {
       });
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => TEST()),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
       // MaterialPageRoute route = MaterialPageRoute(builder: (context) => TEST());
       // Navigator.pushAndRemoveUntil(context, route, (route) => false);
