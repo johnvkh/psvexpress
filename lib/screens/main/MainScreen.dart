@@ -7,10 +7,12 @@ import 'package:provider/provider.dart';
 import 'components/SideMenu.dart';
 
 class MainScreen extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: context.read<MenuController>().scaffoldKey,
+      //key: context.read<MenuController>().scaffoldKey,
+      key: _scaffoldKey,
       drawer: SideMenu(),
       body: SafeArea(
         child: Row(

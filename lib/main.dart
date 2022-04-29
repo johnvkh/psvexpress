@@ -17,15 +17,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Admin Panel',
-      // theme: ThemeData.dark().copyWith(
-      //   scaffoldBackgroundColor: bgColor,
-      //   textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-      //       .apply(bodyColor: Colors.black87),
-      //   canvasColor: secondaryColor,
-      // ),
-      theme: ThemeData(
-        primaryColor: Colors.purple
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: bgColor,
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+            .apply(bodyColor: Colors.black87),
+        canvasColor: secondaryColor,
       ),
+      // theme: ThemeData(
+      //   primaryColor: Colors.purple
+      // ),
       // home: MultiProvider(
       //   providers: [
       //     ChangeNotifierProvider(
@@ -34,7 +34,16 @@ class MyApp extends StatelessWidget {
       //   ],
       //   child: MainScreen(),
       // ),
-      home: Login(),
+      //home: Login(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => MenuController(),
+          ),
+        ],
+        child: Login(),
+      ),
+      //home: MainScreen(),
     );
   }
 }
