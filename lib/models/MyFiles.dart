@@ -30,7 +30,8 @@ List demoMyFiles = [
     numOfFiles: 1328,
     svgSrc: "assets/icons/google_drive.svg",
     totalStorage: "2.9GB",
-    color: Color(0xFFFFA113),
+    // color: Color(0xFFFFA113),
+    color: Colors.redAccent,
     percentage: 35,
   ),
   CloudStorageInfo(
@@ -38,7 +39,8 @@ List demoMyFiles = [
     numOfFiles: 1328,
     svgSrc: "assets/icons/one_drive.svg",
     totalStorage: "1GB",
-    color: Color(0xFFA4CDFF),
+    // color: Color(0xFFA4CDFF),
+    color: Colors.black87,
     percentage: 10,
   ),
   CloudStorageInfo(

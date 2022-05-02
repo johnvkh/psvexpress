@@ -1,12 +1,12 @@
 import 'package:psvexpress/Responsive.dart';
-import 'package:psvexpress/screens/dashboard/components/my_fields.dart';
+import 'package:psvexpress/screens/dashboard/components/MyFiles.dart';
 import 'package:flutter/material.dart';
 import 'package:psvexpress/utility/Constants.dart';
 
-import 'components/header.dart';
+import 'components/ProfileCard.dart';
 
-import 'components/recent_files.dart';
-import 'components/storage_details.dart';
+import 'components/RecentFiles.dart';
+import 'components/StarageDetails.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -16,7 +16,7 @@ class DashboardScreen extends StatelessWidget {
         padding: EdgeInsets.all(defaultPadding),
         child: Column(
           children: [
-            Header(),
+            //Header(),
             SizedBox(height: defaultPadding),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,

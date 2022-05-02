@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:psvexpress/controllers/MenuController.dart';
-import 'package:psvexpress/models/LoginModel.dart';
 import 'package:psvexpress/models/UserModel.dart';
 import 'package:psvexpress/screens/dashboard/dashboard_screen.dart';
 import 'package:psvexpress/screens/main/MainScreen.dart';
@@ -14,6 +13,7 @@ import 'package:psvexpress/utility/DialogPopup.dart';
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 
+import '../../models/UserLoginModel.dart';
 import '../../utility/Constants.dart';
 import '../../utility/ResponceCode.dart';
 
@@ -25,13 +25,14 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String userName = "";
   String password = "";
-  late UserLogin userModel;
+  late UserModel userModel;
+  late UserLoginModel _userLoginModel;
   bool loadProcessBar = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     // key: context.read<MenuController>().scaffoldKey,
+      // key: context.read<MenuController>().scaffoldKey,
       body: SingleChildScrollView(
         child: Container(
             height: MediaQuery.of(context).size.height,
@@ -211,8 +212,6 @@ class _LoginState extends State<Login> {
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String signature = stringToBase64.encode(md5Encode);
     print("signature=${signature}");
-    // String url="${API_URL}/api/login/index.php";
-
     var url = Uri.parse('${API_URL}/api/login/index.php');
     print("url=${url}");
     var response = await http.post(
@@ -229,9 +228,12 @@ class _LoginState extends State<Login> {
     var respData = json.decode(response.body);
     print("extractedData['list']=${respData['list']}");
     for (var map in respData['list']) {
-      userModel = UserLogin.fromJson(map);
+      setState(() {
+        userModel = UserModel.fromJson(map);
+        _userLoginModel.userName ="john";
+      });
     }
-    print("branchName=${userModel.branchName}");
+    print("userName=${_userLoginModel.userName}");
     if (respData['response_code'] == SUCESSFUL) {
       setState(() {
         loadProcessBar = true;
@@ -240,8 +242,14 @@ class _LoginState extends State<Login> {
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
       );
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       // MaterialPageRoute route = MaterialPageRoute(builder: (context) => TEST());
       // Navigator.pushAndRemoveUntil(context, route, (route) => false);
+    } else {
+      setState(() {
+        loadProcessBar = true;
+      });
+      DialogFail(context, "Notification!", "system error pleace try again!!!");
     }
   }
 }
